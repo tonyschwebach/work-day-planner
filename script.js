@@ -103,8 +103,19 @@ $(document).ready(function () {
       return "future";
     }
   }
+  // function to initiate the stored schedule
+  function initSchedule(){
+    var storedSchedule = JSON.parse(localStorage.getItem("storedSchedule"));
+    if (storedSchedule){
+      schedule = storedSchedule;
+    }
+  }
 
-
+/////////////////////////////////////// TODO: verify variable to save 
+  // function to save schedule
+  function saveSchedule(){
+    localStorage.setItem("storedSchedule", JSON.stringify(schedule));
+  }
 
 
   // WHEN I click into a time block
