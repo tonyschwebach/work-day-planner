@@ -56,36 +56,34 @@ $(document).ready(function () {
   var schedule = [];
   var currentHour = moment().format("HH");
 
-  // GIVEN I am using a daily planner to create a schedule
-  // WHEN I open the planner
-  // THEN the current day is displayed at the top of the calendar
-  // use moment to set current day in header
+
+  // The current day is displayed at the top of the calendar
   currentDayEl.text(moment().format("dddd, MMMM, Do YYYY"));
+  
+  
   renderSchedule(businessHours);
 
-  // WHEN I scroll down
-  // THEN I am presented with time blocks for standard business hours
-  // for loop over business hours to append children to container div
+
 
   // function to display the schedule on the page
   function renderSchedule(scheduleArray) {
     for (let j = 0; j < scheduleArray.length; j++) {
-      createTimeBlock(scheduleArray[j].displayTime, scheduleArray[j].task);
+      createTimeBlock(scheduleArray[j]); 
     }
   }
-
   // function to create a time block
-  function createTimeBlock(time, taskDescription) {
+  function createTimeBlock(timeBlock) {
     // create row for the hour time block
     let row = $("<div>").addClass("row time-block");
 
     // create hour label
     let hour = $("<div>").addClass("hour col-sm-1");
-    hour.text(time);
+    hour.text(timeBlock.displayTime);
 
     //create box for task description
     let task = $("<textarea>").addClass("description col-md-10");
-    task.text(taskDescription);
+    task.addClass(indicatePresent(timeBlock.militaryTime));
+    task.text(timeBlock.task);
 
     // create save button
     let save = $("<button>").addClass("saveBtn col-md-1 far fa-save");
@@ -94,9 +92,9 @@ $(document).ready(function () {
     row.append(hour, task, save);
     scheduleEl.append(row);
   }
-
+  // function to indicate if the scheduled hour is past, present, or future
   function indicatePresent(scheduledHour) {
-    let scheduledHour = businessHours[8].militaryTime;
+    // let scheduledHour = businessHours[8].militaryTime;
     if (scheduledHour < currentHour) {
       return "past";
     } else if (scheduledHour === currentHour) {
@@ -106,15 +104,8 @@ $(document).ready(function () {
     }
   }
 
-  indicatePresent();
 
-  // WHEN I view the time blocks for that day
-  // THEN each time block is color-coded to indicate whether it is in the past, present, or future
-  // use moment.js to get time
-  // for loop over each time block
-  // if business hour < current hour, set class to past
-  // else if business hour === current hour, set class to current
-  // else set class to future
+
 
   // WHEN I click into a time block
   // THEN I can enter an event
