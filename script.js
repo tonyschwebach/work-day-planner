@@ -1,6 +1,6 @@
 // wait for page to load before running JS code
 $(document).ready(function () {
-  console.log("yo world");
+
 
   // DOM VARIABLES
   var currentDayEl = $("#currentDay");
@@ -62,10 +62,42 @@ $(document).ready(function () {
   // THEN the current day is displayed at the top of the calendar
   // use moment to set current day in header
   currentDayEl.text(moment().format('dddd, MMMM, Do YYYY'));
+  renderSchedule(businessHours);
+  createTimeBlock();
+
 
   // WHEN I scroll down
   // THEN I am presented with time blocks for standard business hours
   // for loop over business hours to append children to container div
+  function renderSchedule(scheduleArray){
+      for(let j=0; j<scheduleArray.length; j++){
+      console.log(j);
+    }
+  }
+
+
+  function createTimeBlock(){
+    // create row for the hour time block
+    let row = $("<div>").addClass("row time-block");
+
+    // create hour label
+    let hour = $("<div>").addClass("hour col-sm-1");
+    hour.text("1am");
+
+    //create box for task description
+    let task = $("<textarea>").addClass("description col-md-10");
+    task.text("do this");
+
+    // create save button
+    let save = $("<button>").addClass("saveBtn col-md-1 far fa-save")
+    
+    //append hour, task and save to row, then row to container
+    scheduleEl.append(row);
+    row.append(hour, task, save);
+  }
+
+
+
   // create form element
   // add bootstrap classes for formatting
   // append to container div
