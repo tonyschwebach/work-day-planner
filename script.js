@@ -1,7 +1,5 @@
 // wait for page to load before running JS code
 $(document).ready(function () {
-
-
   // DOM VARIABLES
   var currentDayEl = $("#currentDay");
   var scheduleEl = $(".container");
@@ -11,96 +9,104 @@ $(document).ready(function () {
   var businessHours = [
     {
       displayTime: "9 AM",
-      militaryTime: "09:00",
+      militaryTime: "09",
       task: "",
     },
     {
       displayTime: "10 AM",
-      militaryTime: "10:00",
+      militaryTime: "10",
       task: "",
     },
     {
       displayTime: "11 AM",
-      militaryTime: "11:00",
+      militaryTime: "11",
       task: "",
     },
     {
       displayTime: "12 PM",
-      militaryTime: "12:00",
+      militaryTime: "12",
       task: "",
     },
     {
       displayTime: "1 PM",
-      militaryTime: "13:00",
+      militaryTime: "13",
       task: "",
     },
     {
       displayTime: "2 PM",
-      militaryTime: "14:00",
+      militaryTime: "14",
       task: "",
     },
     {
       displayTime: "3 PM",
-      militaryTime: "15:00",
+      militaryTime: "15",
       task: "",
     },
     {
       displayTime: "4 PM",
-      militaryTime: "16:00",
+      militaryTime: "16",
       task: "",
     },
     {
       displayTime: "5 PM",
-      militaryTime: "17:00",
+      militaryTime: "17",
       task: "",
     },
-  ]; 
+  ];
   var schedule = [];
+  var currentHour = moment().format("HH");
 
   // GIVEN I am using a daily planner to create a schedule
   // WHEN I open the planner
   // THEN the current day is displayed at the top of the calendar
   // use moment to set current day in header
-  currentDayEl.text(moment().format('dddd, MMMM, Do YYYY'));
+  currentDayEl.text(moment().format("dddd, MMMM, Do YYYY"));
   renderSchedule(businessHours);
-  createTimeBlock();
-
 
   // WHEN I scroll down
   // THEN I am presented with time blocks for standard business hours
   // for loop over business hours to append children to container div
-  function renderSchedule(scheduleArray){
-      for(let j=0; j<scheduleArray.length; j++){
-      console.log(j);
+
+  // function to display the schedule on the page
+  function renderSchedule(scheduleArray) {
+    for (let j = 0; j < scheduleArray.length; j++) {
+      createTimeBlock(scheduleArray[j].displayTime, scheduleArray[j].task);
     }
   }
 
-
-  function createTimeBlock(){
+  // function to create a time block
+  function createTimeBlock(time, taskDescription) {
     // create row for the hour time block
     let row = $("<div>").addClass("row time-block");
 
     // create hour label
     let hour = $("<div>").addClass("hour col-sm-1");
-    hour.text("1am");
+    hour.text(time);
 
     //create box for task description
     let task = $("<textarea>").addClass("description col-md-10");
-    task.text("do this");
+    task.text(taskDescription);
 
     // create save button
-    let save = $("<button>").addClass("saveBtn col-md-1 far fa-save")
-    
+    let save = $("<button>").addClass("saveBtn col-md-1 far fa-save");
+
     //append hour, task and save to row, then row to container
-    scheduleEl.append(row);
     row.append(hour, task, save);
+    scheduleEl.append(row);
   }
 
+  function indicatePresent(scheduledHour) {
+    let scheduledHour = businessHours[8].militaryTime;
+    if (scheduledHour < currentHour) {
+      return "past";
+    } else if (scheduledHour === currentHour) {
+      return "present";
+    } else if (scheduledHour > currentHour) {
+      return "future";
+    }
+  }
 
-
-  // create form element
-  // add bootstrap classes for formatting
-  // append to container div
+  indicatePresent();
 
   // WHEN I view the time blocks for that day
   // THEN each time block is color-coded to indicate whether it is in the past, present, or future
