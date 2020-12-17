@@ -5,6 +5,8 @@ $(document).ready(function () {
   var scheduleEl = $(".container");
 
   // JAVASCRIPT VARIABLES
+  var currentHour = moment().format("HH"); 
+
   //use military time for comparison with moment.js in indicatePresent function
   var businessHours = [
     {
@@ -53,8 +55,7 @@ $(document).ready(function () {
       task: "",
     },
   ];
-  var schedule = [];
-  var currentHour = moment().format("HH");
+ 
 
   // The current day is displayed at the top of the calendar
   currentDayEl.text(moment().format("dddd, MMMM, Do YYYY"));
@@ -110,8 +111,6 @@ $(document).ready(function () {
       businessHours = storedSchedule;
     }
   }
-
-  /////////////////////////////////////// TODO: verify variable to save
   // function to save schedule
   function saveSchedule() {
     localStorage.setItem("storedSchedule", JSON.stringify(businessHours));
