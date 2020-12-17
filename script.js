@@ -1,11 +1,12 @@
 // wait for page to load before running JS code
 $(document).ready(function () {
+  
   // DOM VARIABLES
   var currentDayEl = $("#currentDay");
   var scheduleEl = $(".container");
 
   // JAVASCRIPT VARIABLES
-  //use military time for comparison with moment.js
+  //use military time for comparison with moment.js in indicatePresent function
   var businessHours = [
     {
       displayTime: "9 AM",
@@ -60,19 +61,20 @@ $(document).ready(function () {
   // The current day is displayed at the top of the calendar
   currentDayEl.text(moment().format("dddd, MMMM, Do YYYY"));
   
-  
+  initSchedule();
   renderSchedule(businessHours);
+  
 
 
 
   // function to display the schedule on the page
   function renderSchedule(scheduleArray) {
     for (let j = 0; j < scheduleArray.length; j++) {
-      createTimeBlock(scheduleArray[j]); 
+      createTimeBlock(scheduleArray[j],j); 
     }
   }
   // function to create a time block
-  function createTimeBlock(timeBlock) {
+  function createTimeBlock(timeBlock,index) {
     // create row for the hour time block
     let row = $("<div>").addClass("row time-block");
 
@@ -82,11 +84,14 @@ $(document).ready(function () {
 
     //create box for task description
     let task = $("<textarea>").addClass("description col-md-10");
-    task.addClass(indicatePresent(timeBlock.militaryTime));
+    task.addClass(indicatePresent(timeBlock.militaryTime)); //class for color
+    task.attr("data-hour",timeBlock.militaryTime)  //class to target to call and store task
     task.text(timeBlock.task);
 
     // create save button
     let save = $("<button>").addClass("saveBtn col-md-1 far fa-save");
+    save.attr("data-index",index);
+    save.attr("type","submit"); 
 
     //append hour, task and save to row, then row to container
     row.append(hour, task, save);
@@ -107,15 +112,29 @@ $(document).ready(function () {
   function initSchedule(){
     var storedSchedule = JSON.parse(localStorage.getItem("storedSchedule"));
     if (storedSchedule){
-      schedule = storedSchedule;
+      businessHours = storedSchedule;
     }
   }
 
 /////////////////////////////////////// TODO: verify variable to save 
   // function to save schedule
   function saveSchedule(){
-    localStorage.setItem("storedSchedule", JSON.stringify(schedule));
+    localStorage.setItem("storedSchedule", JSON.stringify(businessHours));
   }
+
+  // EVENT LISTENERS
+  // listen for save buttons
+  scheduleEl.on("click",".saveBtn",function(event){
+    event.preventDefault
+    
+    let index = $(this).data("index");
+    let newTask = $(this).prev().val(); //get value from textbox previous sibling
+    businessHours[index].task = newTask //set schedule 
+    console.log(businessHours[index].task);
+    saveSchedule();
+  });
+
+
 
 
   // WHEN I click into a time block
