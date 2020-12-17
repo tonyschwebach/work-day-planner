@@ -3,7 +3,7 @@
 
 ## Description
 
-
+This day planner can help you manage your time each day. The planner allows you to add events or tasks for each hour of the standard business day. The task is saved so you don't need to worry about losing your schedule if you refresh the browser. The calendar is color coded to let you know what you've already done, what you should be doing now, and what you have remaining for the day.
 
 ---
 
@@ -28,7 +28,8 @@ URL for repository: [https://github.com/tonyschwebach/work-day-planner](https://
 
 ## Usage
 
-Usage section here
+Click the time block text box next to the hour time slot you would like to schedule an event or task. Type your notes and click the save icon on the right.
+The page will automatically color code the time slots based on your device's clock.
 
 ![planner gif](/assets/demo.gif)
 
@@ -41,6 +42,8 @@ Usage section here
 Instructions from Georgia Tech Coding Bootcamp instructional staff.
 
 My classmates in the Georgia Tech full-time bootcamp.
+
+Font Awesome icon and Bootstrap formatting
 
 
 
