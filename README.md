@@ -34,7 +34,7 @@ The page will automatically color code the time slots based on your device's clo
 ![planner gif](/assets/demo.gif)
 
 
-![planner screenshot](<img src="./assets/screencapture.png" width="640"/>) 
+<img src="./assets/screencapture.png" width="640" alt="planner screenshot"/>) 
 
 ---
 
